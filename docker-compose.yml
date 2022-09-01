@@ -1,0 +1,16 @@
+version: '3.4'
+services:
+  local_pg:
+    image: postgres:13.4
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres_secret
+      - POSTGRES_DB=postgres
+    volumes:
+      - ./initdb.d:/docker-entrypoint-initdb.d
+    ports:
+      - "9432:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 10s
+      start_period: 30s
